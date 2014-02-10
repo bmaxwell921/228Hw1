@@ -1,0 +1,5 @@
+dimensionX: 20
+dimensionY: 20
+numberOfMobileObjects: 5
+durationOfSimulationTime: -5
+WarningGeotask: 1, 3

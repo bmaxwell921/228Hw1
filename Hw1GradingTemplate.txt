@@ -1,0 +1,125 @@
+Automated Testing (80 points) 			Component points 			Total points
+============================== 			===================		====================
+	Geotask Tests 												(30 total points)
+		- CounterGeotask 				(10 points)
+			- Constructor test 				(1 point)
+			- MoveIn test 					(3 points)
+				- Single Object 				(2 point)
+				- Multiple Objects 				(2 points)
+			- MoveOut test 					(3 points)
+				- Single Object 				(2 point)
+				- Multiple Objects 				(2 points)
+			- PrintType test 				(1 point)
+		- PopulationMonitoringGeotask 	(10 points)
+			- Constructor test 				(1 point)
+			- MoveIn test 					(4 points)
+				- Under alertThresh				(2 point)
+				- Over alertThresh 				(2 points)
+			- MoveOut test					(4 points)
+				- Under alertThresh 			(2 points)
+				- From over to under 			(2 points)
+			- PrintType test 				(1 point)	
+		- WarningGeotask 				(10 points)
+			- Constructor test 				(1 point)
+			- MoveIn test 					(4 points)
+			- MoveOut test 					(4 points)
+			- PrintType test 				(1 point)
+	MobileObject Tests 											(40 total points)
+		- Border Collision tests 			(20 points)
+			- Left border moving left 			(3 points)
+			- Top border moving up 				(2 points)
+			- Bot border moving down 			(3 points)
+			- Right border moving right 		(2 points)
+			
+			- Top left moving up and left 		(3 points)
+			- Top right moving up and right 	(2 points)
+			- Bot right moving down and right 	(3 points)
+			- Bot left moving down and left 	(2 points)
+		- Normal movement tests 			(10 points)
+			- Moving up 						(3 points)
+			- Moving left 						(3 points)
+			- Moving right 						(2 points)
+			- Moving down 						(2 points)
+		- Diagonal movement tests 			(10 points)
+			- Up-right 							(3 points)
+			- Up-left 							(3 points)
+			- Down-left 						(2 points)
+			- Down-right						(2 points)
+	Ground Tests 												(10 total points)	
+		- GetGeotask(int, int) 				(5 points)
+			- No objects a location 			(1 point)
+			- One object at location 			(2 points)
+			- Two objects at location 			(2 points)
+		- GetGeotask(MobileObject) 			(5 points)
+			- No objects at MO's loc 			(1 point)
+			- One object at MO's loc 			(2 points)
+			- Two objects at MO's loc 			(2 points)
+
+Manual Checks (50 points)
+==============================			
+	Style 														(6 total points)
+		- Javadoc 							(3 points)
+		- @author Tags 						(2 points)
+		- Variable names 					(1 point)
+	Directory Structure 										(4 total points)
+		- Zip file with correct structure,
+		and proper package names
+	Simulator 													(40 total points)
+	(Use the configuration files found in SimulationConigurations. Invalid configurations should just 
+	not crash, hopefully they have some output, but the specs don't say they need any. Valid files
+	just need to run, the automated tests already evaluate whether the actual classes work so no
+	need to check the output.) 													
+		- Not enough keywords 				(8 points)
+			(NotEnoughKeywords.txt)
+		- Not enough values for a keyword 	(8 points)
+			(NotEnoughValuesForKeyword.txt)
+		- Invalid values  					(8 points)
+			(InvalidValue.txt)
+		- Normal order 						(8 points)
+			(ValidInOrder.txt)
+		- Out of order 						(8 points)
+			(ValidOutOfOrder.txt)
+
+Junit Tests (20 points)
+==============================
+NOTE: This is the mostly subjective. Typically what we look 
+for is: did they actually make an attempt to write tests 
+properly. I.e. there are a 'decent' amount of tests - at least 
+one per method of the testing class. Feel free to leave comments 
+about the style of their testing so they can get better.
+	- MobileObject tests 										(10 total points)
+	- Ground tests 												(10 total points)
+
+
+TEMPLATE FOR GRADING:
+!!ONLY GIVE THEM THIS BELOW!!
+=============================
+ 
+Automated Test Output:
+[PUT OUTPUT HERE]
+ 
+------------------------
+HW 1 Grade
+Graded by: [YOUR NAME HERE]
+Email: [YOUR EMAIL HERE]
+Office hours: [YOUR OFFICE HOURS FROM SYLABUS]
+------------------------
+Automated Tests
+ = / 80
+ Issues:
+ + 
+ 
+Manual checks
+ = / 50
+ Issues: 
+ + 
+ 
+Junit Tests
+ = / 20
+ 
+TOTAL GRADE
+ = 00/150
+
+------------------------
+Comments:
+ + 
