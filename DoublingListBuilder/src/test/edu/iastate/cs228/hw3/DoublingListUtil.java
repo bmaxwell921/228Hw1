@@ -17,7 +17,10 @@ public class DoublingListUtil {
 
 	/**
 	 * Method used to build a doubling list with the given elements.
-	 * 	Example:
+	 * NOTE: It is possible to build invalid Node structures with this method
+	 * since it doesn't pay attention to any compaction rules.
+	 * 
+	 * 	Example Usage:
 	 * 		buildList(new String[] {"A", "B", null, "C", null, "D", "E"})
 	 * 	results in:
 	 * 		[head] <-> [A] <-> [B | -] <-> [C | - | D | E] <-> [tail]
@@ -30,7 +33,7 @@ public class DoublingListUtil {
 	 */
 	public static <E> DoublingList<E> buildList(E[] eles) {
 		if (eles == null || eles.length == 0) {
-			return new DoublingList<>();
+			return emptySetUp();
 		}
 		List<E[]> nodeDatas = split(eles);
 		Node<E> head = new Node<E>(null);
@@ -45,6 +48,17 @@ public class DoublingListUtil {
 		last.setNext(tail);
 		tail.setPrev(last);
 		
+		return new DoublingList<E>(head, tail, numNodes, size);
+	}
+	
+	// Special case create for if we're given an empty or null array of elements
+	private static <E> DoublingList<E> emptySetUp() {
+		Node<E> head = new Node<E>(null);
+		Node<E> tail = new Node<E>(null);
+		head.setNext(tail);
+		tail.setPrev(head);
+		int numNodes = 0;
+		int size = 0;
 		return new DoublingList<E>(head, tail, numNodes, size);
 	}
 	
@@ -81,7 +95,7 @@ public class DoublingListUtil {
 	}
 	
 	/*
-	 * Counts all the non-null elements in eles
+	 * Counts all the non-null elements in eles.
 	 */
 	private static <E> int calcSize(E[] eles) {
 		if (eles == null) return 0;
@@ -109,21 +123,5 @@ public class DoublingListUtil {
 		prev.setNext(newNode);
 		newNode.setPrev(prev);
 		return buildListRec(eles, ++dataIndex, newNode);
-	}
-	
-	public static void main(String[] args) {
-		String[] eles = {null, "B", "C", null, "D", "E", "F", "G"};
-		DoublingList<String> dl = DoublingListUtil.buildList(eles);
-		System.out.println(dl.getNumNodes());
-		System.out.println(dl.getSize());
-		Node<String> cur = dl.getHeadNode().getNext();
-		
-		while (cur != dl.getTailNode()) {
-			for (String data : cur.getData()) {
-				System.out.print(data + ",");
-			}
-			System.out.println();
-			cur = cur.getNext();
-		}
 	}
 }
