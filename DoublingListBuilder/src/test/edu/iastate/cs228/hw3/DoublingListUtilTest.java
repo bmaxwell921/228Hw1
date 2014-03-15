@@ -96,8 +96,7 @@ public class DoublingListUtilTest {
 			/*
 			 *  Since they're private we need to make it accessible, otherwise
 			 *  we'd get the IllegalAccessException
-			 */
-			
+			 */		
 			field.setAccessible(true);
 			return field.get(object);
 		} catch (Exception e) {
