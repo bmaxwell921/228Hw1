@@ -29,30 +29,16 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 	 */
 	private int numNodes;
 	
-	public int getNumNodes() {
-		return numNodes;
-	}
-	
 	/**
 	 * A count of the number of data elements in the list
 	 */
 	private int size;
 	
-	public int getSize() {
-		return size;
-	}
 
 	/**
 	 * Constructs an empty DoublingList
 	 */
 	public DoublingList() {
-		head = new Node<E>(null);
-		tail = new Node<E>(null);
-		head.setNext(tail);
-		tail.setPrev(head);
-		
-		size = 0;
-		numNodes = 0;
 	}
 	
 	/**
