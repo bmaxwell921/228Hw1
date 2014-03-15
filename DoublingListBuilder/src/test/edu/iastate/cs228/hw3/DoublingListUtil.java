@@ -8,8 +8,7 @@ import edu.iastate.cs228.hw3.DoublingList;
 import edu.iastate.cs228.hw3.Node;
 
 /**
- * Utility class with methods used to manually build 
- * a DoublingList
+ * Utility class with methods used to manually build a DoublingList
  * @author Brandon
  *
  */
@@ -24,6 +23,7 @@ public class DoublingListUtil {
 	 * 		buildList(new String[] {"A", "B", null, "C", null, "D", "E"})
 	 * 	results in:
 	 * 		[head] <-> [A] <-> [B | -] <-> [C | - | D | E] <-> [tail]
+	 * 
 	 * @param eles
 	 * 			an array of elements to put in the nodes. Null elements will be
 	 * 		 	placed into the nodes as well as non-null values

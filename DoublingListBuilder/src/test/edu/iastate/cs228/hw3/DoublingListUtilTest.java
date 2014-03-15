@@ -10,11 +10,12 @@ import edu.iastate.cs228.hw3.DoublingList;
 import edu.iastate.cs228.hw3.Node;
 
 /**
- * Tests for the DoublingListUtil class
+ * Tests for the DoublingListUtil class.
  * @author Brandon
  *
  */
 public class DoublingListUtilTest {
+	// Names to use with reflection
 	private static final String NUM_NODES_NAME = "numNodes";
 	private static final String SIZE_NAME = "size";
 	
@@ -73,23 +74,37 @@ public class DoublingListUtilTest {
 		testList(test, data, 3, 0);
 	}
 	
-	// Method that checks that numNodes, size, and node references are created properly
+	// Method that checks that numNodes, size, node references, and data are created properly
 	private static <E> void testList(DoublingList<E> list, E[] data, int numNodes, int size) {
-		Assert.assertEquals("Testing with null should return an empty list", numNodes, getInstanceField(list, NUM_NODES_NAME));
-		Assert.assertEquals("Testing with null should return an empty list", size, getInstanceField(list, SIZE_NAME));
+		Assert.assertEquals("Lists should be created with the proper number of nodes", numNodes, getInstanceField(list, NUM_NODES_NAME));
+		Assert.assertEquals("Lists shoudl be created with the proper size", size, getInstanceField(list, SIZE_NAME));
 		Assert.assertFalse("Lists shouldn't have cycles", hasCycle(list));
 		Assert.assertTrue("Node references should be set up correctly", hasProperPointers(list));
 		Assert.assertTrue("All the data should be in the list", hasAllElements(list, data));
 	}
 	
-	// Method used to get instance field values from objects
+	/*
+	 *  Method used to get instance field values from objects.
+	 *  NOTE: It's usually a bad idea to rely on Reflection...but I wanted everything to be
+	 *  completely independent of your implementaiton. Plus Reflection is fun.
+	 */
 	private static Object getInstanceField(Object object, String fieldName) {
 		try {
 			// Use reflection to grab the values
 			Field field = object.getClass().getDeclaredField(fieldName);
+			
+			/*
+			 *  Since they're private we need to make it accessible, otherwise
+			 *  we'd get the IllegalAccessException
+			 */
+			
 			field.setAccessible(true);
 			return field.get(object);
-		} catch (NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e) {
+		} catch (Exception e) {
+			/*
+			 *  Typically I dislike seeing catch (Exception), but in this case, if any exception is
+			 *  thrown, this is how we handle it
+			 */
 			System.out.println(String.format("Unable to retrieve instance field: %s", fieldName));
 			return null;
 		}
@@ -97,6 +112,12 @@ public class DoublingListUtilTest {
 	
 	// Floyd's Cycle-finding Alg
 	private static <E> boolean hasCycle(DoublingList<E> list) {
+		/*
+		 *  We use two references: fast will jump 2 nodes at a time
+		 *  and slow with go 1 at a time. If there is a cycle, then 
+		 *  at some point fast and slow will be the same. If either
+		 *  gets to the end of the list, then there isn't a list 
+		 */
 		Node<E> fast = list.getHeadNode();
 		Node<E> slow = list.getHeadNode();
 		
@@ -158,8 +179,8 @@ public class DoublingListUtilTest {
 			for (E data : curNode.getData()) {
 				/*
 				 *  You're not required to supply all the data in the last node,
-				 *  it'll be filled in with null, it's possible to have extra eles
-				 *  past the length of the given array. If that happens, we just
+				 *  it'll be filled in with null, so it's possible to have extra elements
+				 *  past the length of the given 'eles' array. If that happens, we just
 				 *  use null
 				 *  
 				 *  Ternary operator format:
