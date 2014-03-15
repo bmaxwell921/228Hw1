@@ -18,6 +18,15 @@ public class DoublingListUtil {
 	 * Method used to build a doubling list with the given elements.
 	 * NOTE: It is possible to build invalid Node structures with this method
 	 * since it doesn't pay attention to any compaction rules.
+	 *
+	 * If the given array doesn't have enough elements to fill the last Node,
+	 * then the missing data will be replaced with nulls in the Node.
+	 * 
+	 *	Example:
+	 *		buildList(new String[] {"A", "B", "C", "D"});
+	 *	results in
+	 *		[head] <-> [A] <-> [B | C] <-> [D|-|-|-] <-> [tail]
+	 *
 	 * 
 	 * 	Example Usage:
 	 * 		buildList(new String[] {"A", "B", null, "C", null, "D", "E"})
@@ -26,7 +35,7 @@ public class DoublingListUtil {
 	 * 
 	 * @param eles
 	 * 			an array of elements to put in the nodes. Null elements will be
-	 * 		 	placed into the nodes as well as non-null values
+	 * 		 	placed into the nodes as well as non-null values.
 	 * @return
 	 * 			A DoublingList containing the given elements, or an empty list if
 	 * 			eles is null or empty
@@ -35,6 +44,7 @@ public class DoublingListUtil {
 		if (eles == null || eles.length == 0) {
 			return emptySetUp();
 		}
+		// Split the given elements into the arrays that will be placed in each node
 		List<E[]> nodeDatas = split(eles);
 		Node<E> head = new Node<E>(null);
 		Node<E> tail = new Node<E>(null);

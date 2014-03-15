@@ -154,7 +154,7 @@ public class DoublingListUtilTest {
 			cur = cur.getNext();
 		}
 		
-		// Since we break out of the loop before checking tail, do it here
+		// Since we break out of the loop before checking everything for tail, do it here
 		if (prev != list.getTailNode()) {
 			return false;
 		}
