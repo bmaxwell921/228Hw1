@@ -173,6 +173,9 @@ public class DoublingListUtil {
 	 * @return
 	 */
 	public static <E> String toStringInternal(DoublingList<E> list, ListIterator<E> iter) {
+		if (list == null) {
+			return "";
+		}
 		StringBuilder sb = new StringBuilder();
 		sb.append(LIST_START).append(iterPosPattern.replace(iterPosNum, "0"));
 		sb.append(toStrIntRec(list, list.getHeadNode().getNext(), new IntRef(1)));
@@ -206,7 +209,7 @@ public class DoublingListUtil {
 	private static <E> String getNodeStr(Node<E> cur, IntRef iterPos) {
 		// Safety check
 		if (cur.getData() == null) {
-			return "null";
+			return "(null)";
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append(NODE_START);
