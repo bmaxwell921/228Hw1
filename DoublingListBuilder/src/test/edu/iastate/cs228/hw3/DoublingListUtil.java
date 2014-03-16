@@ -10,7 +10,7 @@ import edu.iastate.cs228.hw3.Node;
 
 
 /**
- * Utility class with methods used to manually build a DoublingList
+ * Utility class with methods to act on DoublingLists
  * @author Brandon
  *
  */
@@ -144,7 +144,7 @@ public class DoublingListUtil {
 	 * ------------------------------------------------------------------------------------------ 
 	 */
 	
-	// String stuff
+	// String constants
 	private static final String iterPosNum = "#";
 	private static final String ANY_CHAR = ".";
 	private static final String iterPosPattern = "<IterPos" + iterPosNum + ">";
@@ -153,10 +153,11 @@ public class DoublingListUtil {
 	private static final String NODE_START = "(";
 	private static final String NODE_END = ")";
 	private static final String DELIM = ", ";
+	private static final String ITER = "|";
 	
 	/**
 	 * Converts the given list to a string, using the internal
-	 * node structure
+	 * node structure. See toStringInternal(DoublingList<E>, ListIterator<E>)
 	 * @param list
 	 * @return
 	 */
@@ -168,14 +169,29 @@ public class DoublingListUtil {
 	 * Converts the given list to a string using the internal 
 	 * node structure, placing the iterator's location at the correct
 	 * place.
+	 * 
+	 * 	Example:
+	 * 		list: [head] <-> [A] <-> [B | C] <-> [D | - | - | -] <-> [tail]
+	 * 		string: [(A), (B, C), (D, -, -, -)]
+	 * 
+	 * Iterator positions are found in two different places:
+	 * 		1) Between [ and ( - which is the very beginning of the list
+	 * 		2) AFTER each data element.
+	 * 			Example: 	list: [head] <-> [A] <-> [B | C] <-> [tail]
+	 * 						iteratorPositions (in angle brackets): [<0>(A<1>), (B<2>, C<3>)]
+	 * 	Null elements are correctly ignored.
 	 * @param list
 	 * @param iter
 	 * @return
+	 * 			- The empty string if list is null
+	 * 			- "[|]" if the list is empty
+	 * 			- the internal string representation of the list otherwise
 	 */
 	public static <E> String toStringInternal(DoublingList<E> list, ListIterator<E> iter) {
 		if (list == null) {
 			return "";
 		}
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append(LIST_START).append(iterPosPattern.replace(iterPosNum, "0"));
 		sb.append(toStrIntRec(list, list.getHeadNode().getNext(), new IntRef(1)));
@@ -186,7 +202,7 @@ public class DoublingListUtil {
 		// Replace the iterPosPatterns as necessary
 		if (iter != null) {
 			String iterNextPosRegex = iterPosPattern.replace(iterPosNum, "" + iter.nextIndex());
-			listStr = listStr.replace(iterNextPosRegex, "|");			
+			listStr = listStr.replace(iterNextPosRegex, ITER);			
 		}
 		
 		// Remove the ones that aren't the next index
@@ -210,7 +226,7 @@ public class DoublingListUtil {
 	
 	// Method that does all the work
 	private static <E> String getNodeStr(Node<E> cur, IntRef iterPos) {
-		// Safety check
+		// Safety check, shouldn't happen in valid lists
 		if (cur.getData() == null) {
 			return "(null)";
 		}
@@ -219,6 +235,7 @@ public class DoublingListUtil {
 		
 		// Boolean to track whether we place an iterator marker or not
 		boolean sawNull = false;
+		
 		// Just get all the data
 		for (int i = 0; i < cur.getData().length; ++i) {
 			if (cur.getData()[i] == null) {
