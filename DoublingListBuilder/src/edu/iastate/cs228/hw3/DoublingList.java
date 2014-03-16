@@ -152,7 +152,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 	@Override
 	public ListIterator<E> listIterator() {
 		// TODO
-		return null;
+		return new DoublingListIterator();
 	}
 
 	/**
@@ -182,7 +182,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 	 * API: http://docs.oracle.com/javase/6/docs/api/java/util/ListIterator.html
 	 */
 	private class DoublingListIterator implements ListIterator<E> {
-		
+		int index = 0;
 		/**
 		 * Adds the given element to the DoublingList following the rules of
 		 * add(). DO NOT call the add method you wrote for DoublingList above!
@@ -226,7 +226,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 		 */
 		@Override
 		public E next() {
-			// TODO
+			++index;
 			return null;
 		}
 
@@ -237,8 +237,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 		 */
 		@Override
 		public int nextIndex() {
-			// TODO
-			return 0;
+			return index;
 		}
 
 		/**
