@@ -280,7 +280,7 @@ public class DoublingListUtilTest {
 		ListIterator<String> iter = test.listIterator();
 		iter.next();
 		
-		final String correctStr = "[(A)|]";
+		final String correctStr = "[(A|)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with one ele", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
@@ -303,7 +303,7 @@ public class DoublingListUtilTest {
 		ListIterator<String> iter = test.listIterator();
 		iter.next();
 		
-		final String correctStr = "[(A)|, (B, C)]";
+		final String correctStr = "[(A|), (B, C)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with manyEles", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
@@ -316,7 +316,7 @@ public class DoublingListUtilTest {
 		iter.next();
 		iter.next();
 		
-		final String correctStr = "[(A), (B, |C)]";
+		final String correctStr = "[(A), (B|, C)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with manyEles", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
@@ -330,7 +330,7 @@ public class DoublingListUtilTest {
 		iter.next();
 		iter.next();
 		
-		final String correctStr = "[(A), (B, C)|]";
+		final String correctStr = "[(A), (B, C|)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with manyEles", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
@@ -353,7 +353,7 @@ public class DoublingListUtilTest {
 		ListIterator<String> iter = test.listIterator();
 		iter.next();
 		
-		final String correctStr = "[(A)|, (-, B), (-, -, C, D)]";
+		final String correctStr = "[(A|), (-, B), (-, -, C, D)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
@@ -366,7 +366,7 @@ public class DoublingListUtilTest {
 		iter.next();
 		iter.next();
 		
-		final String correctStr = "[(A), (-, B)|, (-, -, C, D)]";
+		final String correctStr = "[(A), (-, B|), (-, -, C, D)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
@@ -380,7 +380,7 @@ public class DoublingListUtilTest {
 		iter.next();
 		iter.next();
 		
-		final String correctStr = "[(A), (-, B), (-, -, C, |D)]";
+		final String correctStr = "[(A), (-, B), (-, -, C|, D)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
@@ -395,7 +395,7 @@ public class DoublingListUtilTest {
 		iter.next();
 		iter.next();
 		
-		final String correctStr = "[(A), (-, B), (-, -, C, D)|]";
+		final String correctStr = "[(A), (-, B), (-, -, C, D|)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
