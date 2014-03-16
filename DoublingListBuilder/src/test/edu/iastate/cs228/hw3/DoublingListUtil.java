@@ -152,7 +152,7 @@ public class DoublingListUtil {
 	private static final String LIST_END = "]";
 	private static final String NODE_START = "(";
 	private static final String NODE_END = ")";
-	private static final String DELIM = ",";
+	private static final String DELIM = ", ";
 	
 	/**
 	 * Converts the given list to a string, using the internal
@@ -201,6 +201,9 @@ public class DoublingListUtil {
 		}
 		StringBuilder sb = new StringBuilder();
 		sb.append(getNodeStr(cur, iterPos));
+		if (cur.getNext() != list.getTailNode()) {
+			sb.append(DELIM);
+		}
 		sb.append(toStrIntRec(list, cur.getNext(), iterPos));
 		return sb.toString();
 	}
@@ -232,9 +235,9 @@ public class DoublingListUtil {
 				if (!sawNull) {
 					sb.append(iterPosPattern.replace(iterPosNum, "" + iterPos));
 					iterPos.incr();
-					sawNull = false;
 				}
 			}
+			sawNull = false;
 		}
 		sb.append(NODE_END);
 		
