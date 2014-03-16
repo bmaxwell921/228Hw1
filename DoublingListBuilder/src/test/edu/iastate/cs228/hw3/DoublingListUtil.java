@@ -227,27 +227,20 @@ public class DoublingListUtil {
 			} else {
 				sb.append(cur.getData()[i].toString());
 			}
-						
+			
+			// If it wasn't a null element we need to place an iterator marker
+			if (!sawNull) {
+				sb.append(iterPosPattern.replace(iterPosNum, "" + iterPos));
+				iterPos.incr();
+			}
+			
 			if (i != cur.getData().length - 1) {
 				sb.append(DELIM);
 				
-				// If it wasn't a null element we need to place an iterator marker
-				if (!sawNull) {
-					sb.append(iterPosPattern.replace(iterPosNum, "" + iterPos));
-					iterPos.incr();
-				}
 			}
 			sawNull = false;
 		}
-		sb.append(NODE_END);
-		
-		// Last marker comes outside the node
-		if (!sawNull) {
-			// Add the marker for an iterator position
-			sb.append(iterPosPattern.replace(iterPosNum, "" + iterPos));
-			iterPos.incr();
-		}
-		
+		sb.append(NODE_END);		
 		return sb.toString();
 	}
 	
@@ -266,10 +259,5 @@ public class DoublingListUtil {
 		public String toString() {
 			return "" + integer;
 		}
-	}
-	
-	public static void main(String[] args) {
-		DoublingList<String> l = DoublingListUtil.buildList(new String[] {"A", "B", "C", "D"});
-		System.out.println(DoublingListUtil.toStringInternal(l, l.listIterator()));
 	}
 }
