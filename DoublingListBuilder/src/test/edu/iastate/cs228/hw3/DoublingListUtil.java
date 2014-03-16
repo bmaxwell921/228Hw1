@@ -10,8 +10,7 @@ import edu.iastate.cs228.hw3.Node;
 
 
 /**
- * Utility class with methods used to manually build 
- * a DoublingList
+ * Utility class with methods used to manually build a DoublingList
  * @author Brandon
  *
  */
@@ -19,21 +18,35 @@ public class DoublingListUtil {
 
 	/**
 	 * Method used to build a doubling list with the given elements.
-	 * 	Example:
+	 * NOTE: It is possible to build invalid Node structures with this method
+	 * since it doesn't pay attention to any compaction rules.
+	 *
+	 * If the given array doesn't have enough elements to fill the last Node,
+	 * then the missing data will be replaced with nulls in the Node.
+	 * 
+	 *	Example:
+	 *		buildList(new String[] {"A", "B", "C", "D"});
+	 *	results in
+	 *		[head] <-> [A] <-> [B | C] <-> [D|-|-|-] <-> [tail]
+	 *
+	 * 
+	 * 	Example Usage:
 	 * 		buildList(new String[] {"A", "B", null, "C", null, "D", "E"})
 	 * 	results in:
 	 * 		[head] <-> [A] <-> [B | -] <-> [C | - | D | E] <-> [tail]
+	 * 
 	 * @param eles
 	 * 			an array of elements to put in the nodes. Null elements will be
-	 * 		 	placed into the nodes as well as non-null values
+	 * 		 	placed into the nodes as well as non-null values.
 	 * @return
 	 * 			A DoublingList containing the given elements, or an empty list if
 	 * 			eles is null or empty
 	 */
 	public static <E> DoublingList<E> buildList(E[] eles) {
 		if (eles == null || eles.length == 0) {
-			return new DoublingList<>();
+			return emptySetUp();
 		}
+		// Split the given elements into the arrays that will be placed in each node
 		List<E[]> nodeDatas = split(eles);
 		Node<E> head = new Node<E>(null);
 		Node<E> tail = new Node<E>(null);
@@ -47,6 +60,17 @@ public class DoublingListUtil {
 		last.setNext(tail);
 		tail.setPrev(last);
 		
+		return new DoublingList<E>(head, tail, numNodes, size);
+	}
+	
+	// Special case create for if we're given an empty or null array of elements
+	private static <E> DoublingList<E> emptySetUp() {
+		Node<E> head = new Node<E>(null);
+		Node<E> tail = new Node<E>(null);
+		head.setNext(tail);
+		tail.setPrev(head);
+		int numNodes = 0;
+		int size = 0;
 		return new DoublingList<E>(head, tail, numNodes, size);
 	}
 	
@@ -83,7 +107,7 @@ public class DoublingListUtil {
 	}
 	
 	/*
-	 * Counts all the non-null elements in eles
+	 * Counts all the non-null elements in eles.
 	 */
 	private static <E> int calcSize(E[] eles) {
 		if (eles == null) return 0;

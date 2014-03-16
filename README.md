@@ -1,4 +1,4 @@
-228Hw1
+ComS228
 ======
 
-ComS 228 Hw1 Tests
+Code for ComS228
