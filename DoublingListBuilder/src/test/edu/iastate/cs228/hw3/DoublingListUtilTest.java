@@ -247,6 +247,16 @@ public class DoublingListUtilTest {
 	}
 	
 	@Test
+	public void testToStringInternalLargeList() {
+		String[] eles = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		
+		final String correctStr = "[(A), (B, C), (D, E, F, G), (H, I, J, K, L, M, N, O)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with null elements", correctStr,
+				DoublingListUtil.toStringInternal(test));
+	}
+	
+	@Test
 	public void testToStringInternalNull_2Arg() {
 		Assert.assertEquals("toStringInternal should perform properly when given null list", "",
 				DoublingListUtil.toStringInternal(null, null));
@@ -397,6 +407,31 @@ public class DoublingListUtilTest {
 		
 		final String correctStr = "[(A), (-, B), (-, -, C, D|)]";
 		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalLargeList_IterAtBeg() {
+		String[] eles = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		
+		final String correctStr = "[|(A), (B, C), (D, E, F, G), (H, I, J, K, L, M, N, O)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with null elements", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalLargeList_IterAtEnd() {
+		String[] eles = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		for (int i = 0; i < eles.length; ++i) {
+			iter.next();
+		}
+		
+		final String correctStr = "[(A), (B, C), (D, E, F, G), (H, I, J, K, L, M, N, O|)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with null elements", correctStr,
 				DoublingListUtil.toStringInternal(test, iter));
 	}
 }

@@ -146,7 +146,7 @@ public class DoublingListUtil {
 	
 	// String constants
 	private static final String iterPosNum = "#";
-	private static final String ANY_CHAR = ".";
+	private static final String ALL_DIGIT = "\\d*";
 	private static final String iterPosPattern = "<IterPos" + iterPosNum + ">";
 	private static final String LIST_START = "[";
 	private static final String LIST_END = "]";
@@ -206,7 +206,7 @@ public class DoublingListUtil {
 		}
 		
 		// Remove the ones that aren't the next index
-		String allIterPosRegex = iterPosPattern.replace(iterPosNum, ANY_CHAR);
+		String allIterPosRegex = iterPosPattern.replace(iterPosNum, ALL_DIGIT);
 		return listStr.replaceAll(allIterPosRegex, "");
 	}
 	
