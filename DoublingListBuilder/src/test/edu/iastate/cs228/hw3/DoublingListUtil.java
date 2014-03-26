@@ -8,8 +8,9 @@ import java.util.ListIterator;
 import edu.iastate.cs228.hw3.DoublingList;
 import edu.iastate.cs228.hw3.Node;
 
+
 /**
- * Utility class with methods used to manually build a DoublingList
+ * Utility class with methods to act on DoublingLists
  * @author Brandon
  *
  */
@@ -135,6 +136,147 @@ public class DoublingListUtil {
 		newNode.setPrev(prev);
 		return buildListRec(eles, ++dataIndex, newNode);
 	}
+
+	
+	/*
+	 * ------------------------------------------------------------------------------------------
+	 * ToStringInternal
+	 * ------------------------------------------------------------------------------------------ 
+	 */
+	
+	// String constants
+	private static final String iterPosNum = "#";
+	private static final String ALL_DIGIT = "\\d*";
+	private static final String iterPosPattern = "<IterPos" + iterPosNum + ">";
+	private static final String LIST_START = "[";
+	private static final String LIST_END = "]";
+	private static final String NODE_START = "(";
+	private static final String NODE_END = ")";
+	private static final String DELIM = ", ";
+	private static final String ITER = "|";
+	
+	/**
+	 * Converts the given list to a string, using the internal
+	 * node structure. See toStringInternal(DoublingList<E>, ListIterator<E>)
+	 * @param list
+	 * @return
+	 */
+	public static <E> String toStringInternal(DoublingList<E> list) {
+		return DoublingListUtil.toStringInternal(list, null);
+	}
+	
+	/**
+	 * Converts the given list to a string using the internal 
+	 * node structure, placing the iterator's location at the correct
+	 * place.
+	 * 
+	 * 	Example:
+	 * 		list: [head] <-> [A] <-> [B | C] <-> [D | - | - | -] <-> [tail]
+	 * 		string: [(A), (B, C), (D, -, -, -)]
+	 * 
+	 * Iterator positions are found in two different places:
+	 * 		1) Between [ and ( - which is the very beginning of the list
+	 * 		2) AFTER each data element.
+	 * 			Example: 	list: [head] <-> [A] <-> [B | C] <-> [tail]
+	 * 						iteratorPositions (in angle brackets): [<0>(A<1>), (B<2>, C<3>)]
+	 * 	Null elements are correctly ignored.
+	 * @param list
+	 * @param iter
+	 * @return
+	 * 			- The empty string if list is null
+	 * 			- "[|]" if the list is empty
+	 * 			- the internal string representation of the list otherwise
+	 */
+	public static <E> String toStringInternal(DoublingList<E> list, ListIterator<E> iter) {
+		if (list == null) {
+			return "";
+		}
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append(LIST_START).append(iterPosPattern.replace(iterPosNum, "0"));
+		sb.append(toStrIntRec(list, list.getHeadNode().getNext(), new IntRef(1)));
+		sb.append(LIST_END);
+		
+		String listStr = sb.toString();
+		
+		// Replace the iterPosPatterns as necessary
+		if (iter != null) {
+			String iterNextPosRegex = iterPosPattern.replace(iterPosNum, "" + iter.nextIndex());
+			listStr = listStr.replace(iterNextPosRegex, ITER);			
+		}
+		
+		// Remove the ones that aren't the next index
+		String allIterPosRegex = iterPosPattern.replace(iterPosNum, ALL_DIGIT);
+		return listStr.replaceAll(allIterPosRegex, "");
+	}
+	
+	// Recursive method to get all the node's string reps
+	private static <E> String toStrIntRec(DoublingList<E> list, Node<E> cur, IntRef iterPos) {
+		if (cur == list.getTailNode()) {
+			return "";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(getNodeStr(cur, iterPos));
+		if (cur.getNext() != list.getTailNode()) {
+			sb.append(DELIM);
+		}
+		sb.append(toStrIntRec(list, cur.getNext(), iterPos));
+		return sb.toString();
+	}
+	
+	// Method that does all the work
+	private static <E> String getNodeStr(Node<E> cur, IntRef iterPos) {
+		// Safety check, shouldn't happen in valid lists
+		if (cur.getData() == null) {
+			return "(null)";
+		}
+		StringBuilder sb = new StringBuilder();
+		sb.append(NODE_START);
+		
+		// Boolean to track whether we place an iterator marker or not
+		boolean sawNull = false;
+		
+		// Just get all the data
+		for (int i = 0; i < cur.getData().length; ++i) {
+			if (cur.getData()[i] == null) {
+				sb.append("-");
+				sawNull = true;
+			} else {
+				sb.append(cur.getData()[i].toString());
+			}
+			
+			// If it wasn't a null element we need to place an iterator marker
+			if (!sawNull) {
+				sb.append(iterPosPattern.replace(iterPosNum, "" + iterPos));
+				iterPos.incr();
+			}
+			
+			if (i != cur.getData().length - 1) {
+				sb.append(DELIM);
+				
+			}
+			sawNull = false;
+		}
+		sb.append(NODE_END);		
+		return sb.toString();
+	}
+	
+	// Class used to pass ints by reference
+	private static class IntRef {
+		public int integer;
+		public IntRef(int integer) {
+			this.integer = integer;
+		}
+		
+		public void incr() {
+			++integer;
+		}
+		
+		@Override
+		public String toString() {
+			return "" + integer;
+		}
+	}
 	
 	public static void main(String[] args) {
 		DoublingList<String> list = DoublingListUtil.buildList(new String[] {"a", "b", "c", "d", "e"});
@@ -144,5 +286,9 @@ public class DoublingListUtil {
 		iter.next();
 		iter.next();
 		iter.next();
+		
+		System.out.println(DoublingListUtil.toStringInternal(list, iter));
+		iter.previous();
+		System.out.println(DoublingListUtil.toStringInternal(list, iter));
 	}
 }

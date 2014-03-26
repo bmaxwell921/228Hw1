@@ -2,6 +2,7 @@ package test.edu.iastate.cs228.hw3;
 
 
 import java.lang.reflect.Field;
+import java.util.ListIterator;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -197,5 +198,240 @@ public class DoublingListUtilTest {
 		}
 		
 		return true;
+	}
+	
+	@Test
+	public void testToStringInteralNull() {
+		Assert.assertEquals("toStringInternal should perform properly on an empty list", "",
+				DoublingListUtil.toStringInternal(null));
+	}
+	
+	@Test
+	public void testToStringInternalEmptyList() {
+		String[] eles = {};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		
+		final String correctStr = "[]";
+		Assert.assertEquals("toStringInternal should perform properly on an empty list", correctStr,
+				DoublingListUtil.toStringInternal(test));		
+	}
+	
+	@Test
+	public void testToStringInternalOneEle() {
+		String[] eles = {"A"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		
+		final String correctStr = "[(A)]";
+		Assert.assertEquals("toStringInternal should perform properly on a single ele list list", correctStr,
+				DoublingListUtil.toStringInternal(test));		
+	}
+	
+	@Test
+	public void testToStringInternalManyEles_FullNodes() {
+		String[] eles = {"A", "B", "C", "D", "E", "F", "G"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		
+		final String correctStr = "[(A), (B, C), (D, E, F, G)]";
+		Assert.assertEquals("toStringInternal should perform properly on a full list", correctStr,
+				DoublingListUtil.toStringInternal(test));	
+	}
+	
+	@Test
+	public void testToStringInternalManyEles_PartialNodes() {
+		String[] eles = {"A", null, "C", "D", null, "F", null};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		
+		final String correctStr = "[(A), (-, C), (D, -, F, -)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with null elements", correctStr,
+				DoublingListUtil.toStringInternal(test));
+	}
+	
+	@Test
+	public void testToStringInternalLargeList() {
+		String[] eles = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		
+		final String correctStr = "[(A), (B, C), (D, E, F, G), (H, I, J, K, L, M, N, O)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with null elements", correctStr,
+				DoublingListUtil.toStringInternal(test));
+	}
+	
+	@Test
+	public void testToStringInternalNull_2Arg() {
+		Assert.assertEquals("toStringInternal should perform properly when given null list", "",
+				DoublingListUtil.toStringInternal(null, null));
+	}
+	
+	@Test
+	public void testToStringInternalEmptyList_2Arg() {
+		String[] eles = {};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		
+		final String correctStr = "[|]";
+		Assert.assertEquals("toStringInternal should perform properly on empty list", correctStr,
+				DoublingListUtil.toStringInternal(test, test.listIterator()));
+	}
+	
+	@Test
+	public void testToStringInternalOneEle_IterAtBeg() {
+		String[] eles = {"A"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		
+		final String correctStr = "[|(A)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with one ele", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalOneEle_IterAtEnd() {
+		String[] eles = {"A"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		
+		final String correctStr = "[(A|)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with one ele", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalFullList_IteratorAtBeg() {
+		String[] eles = {"A", "B", "C"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		
+		final String correctStr = "[|(A), (B, C)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with manyEles", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalFullList_IteratorInMid() {
+		String[] eles = {"A", "B", "C"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		
+		final String correctStr = "[(A|), (B, C)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with manyEles", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalFullList_IteratorBetweenEles() {
+		String[] eles = {"A", "B", "C"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		iter.next();
+		
+		final String correctStr = "[(A), (B|, C)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with manyEles", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalFullList_IteratorAtEnd() {
+		String[] eles = {"A", "B", "C"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		iter.next();
+		iter.next();
+		
+		final String correctStr = "[(A), (B, C|)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with manyEles", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalHolesInList_IteratorAtBeg() {
+		String[] eles = {"A", null, "B", null, null, "C", "D"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		
+		final String correctStr = "[|(A), (-, B), (-, -, C, D)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalHolesInList_IteratorBeforeNull() {
+		String[] eles = {"A", null, "B", null, null, "C", "D"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		
+		final String correctStr = "[(A|), (-, B), (-, -, C, D)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalHolesInList_IteratorJumpNull() {
+		String[] eles = {"A", null, "B", null, null, "C", "D"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		iter.next();
+		
+		final String correctStr = "[(A), (-, B|), (-, -, C, D)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalHolesInList_IteratorJumpMultiNull() {
+		String[] eles = {"A", null, "B", null, null, "C", "D"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		iter.next();
+		iter.next();
+		
+		final String correctStr = "[(A), (-, B), (-, -, C|, D)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalHolesInList_IteratorEnd() {
+		String[] eles = {"A", null, "B", null, null, "C", "D"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		iter.next();
+		iter.next();
+		iter.next();
+		iter.next();
+		
+		final String correctStr = "[(A), (-, B), (-, -, C, D|)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with holes", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalLargeList_IterAtBeg() {
+		String[] eles = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		
+		final String correctStr = "[|(A), (B, C), (D, E, F, G), (H, I, J, K, L, M, N, O)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with null elements", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
+	}
+	
+	@Test
+	public void testToStringInternalLargeList_IterAtEnd() {
+		String[] eles = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"};
+		DoublingList<String> test = DoublingListUtil.buildList(eles);
+		ListIterator<String> iter = test.listIterator();
+		for (int i = 0; i < eles.length; ++i) {
+			iter.next();
+		}
+		
+		final String correctStr = "[(A), (B, C), (D, E, F, G), (H, I, J, K, L, M, N, O|)]";
+		Assert.assertEquals("toStringInternal should perform properly on a list with null elements", correctStr,
+				DoublingListUtil.toStringInternal(test, iter));
 	}
 }
