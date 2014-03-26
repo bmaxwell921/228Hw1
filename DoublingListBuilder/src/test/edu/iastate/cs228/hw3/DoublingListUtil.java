@@ -3,6 +3,7 @@ package test.edu.iastate.cs228.hw3;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.ListIterator;
 
 import edu.iastate.cs228.hw3.DoublingList;
 import edu.iastate.cs228.hw3.Node;
@@ -133,5 +134,15 @@ public class DoublingListUtil {
 		prev.setNext(newNode);
 		newNode.setPrev(prev);
 		return buildListRec(eles, ++dataIndex, newNode);
+	}
+	
+	public static void main(String[] args) {
+		DoublingList<String> list = DoublingListUtil.buildList(new String[] {"a", "b", "c", "d", "e"});
+		ListIterator<String> iter = list.listIterator();
+		iter.next();
+		iter.next();
+		iter.next();
+		iter.next();
+		iter.next();
 	}
 }

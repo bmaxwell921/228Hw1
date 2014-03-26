@@ -169,6 +169,8 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 	 */
 	private class DoublingListIterator implements ListIterator<E> {
 		
+		int index = 0;
+		
 		/**
 		 * Adds the given element to the DoublingList following the rules of
 		 * add(). DO NOT call the add method you wrote for DoublingList above!
@@ -213,6 +215,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 		@Override
 		public E next() {
 			// TODO
+			++index;
 			return null;
 		}
 
@@ -224,7 +227,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 		@Override
 		public int nextIndex() {
 			// TODO
-			return 0;
+			return index;
 		}
 
 		/**
@@ -238,6 +241,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 		@Override
 		public E previous() {
 			// TODO
+			--index;
 			return null;
 		}
 
@@ -250,7 +254,7 @@ public class DoublingList<E> extends AbstractSequentialList<E> {
 		@Override
 		public int previousIndex() {
 			// TODO
-			return 0;
+			return index - 1;
 		}
 
 		/**
