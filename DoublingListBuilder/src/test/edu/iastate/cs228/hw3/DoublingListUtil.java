@@ -279,16 +279,17 @@ public class DoublingListUtil {
 	}
 	
 	public static void main(String[] args) {
-		DoublingList<String> list = DoublingListUtil.buildList(new String[] {"a", "b", "c", "d", "e"});
-		ListIterator<String> iter = list.listIterator();
-		iter.next();
-		iter.next();
-		iter.next();
-		iter.next();
-		iter.next();
+		DoublingList<String> list2 = DoublingListUtil.buildList(new String[] {
+
+                "a", "b", "c", "d", "e" });
+		ListIterator<String> iter2 = list2.listIterator();
+
+		System.out.println(DoublingListUtil.toStringInternal(list2, iter2));
 		
-		System.out.println(DoublingListUtil.toStringInternal(list, iter));
-		iter.previous();
-		System.out.println(DoublingListUtil.toStringInternal(list, iter));
+		System.out.println(iter2.next());
+		System.out.println(DoublingListUtil.toStringInternal(list2, iter2));
+		
+		System.out.println(iter2.next());
+		System.out.println(DoublingListUtil.toStringInternal(list2, iter2));
 	}
 }
