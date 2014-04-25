@@ -78,7 +78,7 @@ public class DoublingListUtilTest {
 	// Method that checks that numNodes, size, node references, and data are created properly
 	private static <E> void testList(DoublingList<E> list, E[] data, int numNodes, int size) {
 		Assert.assertEquals("Lists should be created with the proper number of nodes", numNodes, getInstanceField(list, NUM_NODES_NAME));
-		Assert.assertEquals("Lists shoudl be created with the proper size", size, getInstanceField(list, SIZE_NAME));
+		Assert.assertEquals("Lists should be created with the proper size", size, getInstanceField(list, SIZE_NAME));
 		Assert.assertFalse("Lists shouldn't have cycles", hasCycle(list));
 		Assert.assertTrue("Node references should be set up correctly", hasProperPointers(list));
 		Assert.assertTrue("All the data should be in the list", hasAllElements(list, data));
